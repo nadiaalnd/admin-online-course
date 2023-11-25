@@ -1,12 +1,27 @@
 <template>
-  <VBtn @click="openAddDetailLesson">Tambah</VBtn>
+  <v-card-actions>
+    <v-select
+      v-model="selectedClass"
+      :items="classOptions"
+      label="Filter by Class"
+      style="max-width: 170px;"
+      density="compact"
+      outlined
+      dense
+    ></v-select>
+    <v-spacer></v-spacer>
+    <router-link to="/add">
+      <v-btn variant='outlined' color="primary">Tambah</v-btn>
+    </router-link>
+  </v-card-actions>
 </template>
-
 <script setup>
-import { useRouter } from 'vue-router'
+import { ref } from 'vue';
 
-const openAddDetailLesson = () => {
-  const router = useRouter()
-  router.push('/add-lesson')
-}
+const selectedClass = ref(null);
+
+const classOptions = [
+  'HTML',
+  'PHP',
+];
 </script>

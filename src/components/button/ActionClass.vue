@@ -3,16 +3,16 @@
     <li>
       <v-icon
         @click="openEditClassModal"
-        style='color: #909CFF;'
+        style='color: #FFB400;'
       >
-        mdi-pencil
+        mdi-pencil-outline
       </v-icon>
     </li>
     <li>
       <v-icon
-        style='color: #DE1E1E;'
+        style='color: #FF4C51;'
       >
-        mdi-delete
+        mdi-delete-outline
       </v-icon>
     </li>
   </ul>

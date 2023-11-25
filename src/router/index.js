@@ -17,18 +17,6 @@ const router = createRouter({
           component: () => import('../pages/management-class.vue'),
         },
         {
-          path: 'management-lesson',
-          component: () => import('../pages/management-lesson.vue'),
-        },
-        {
-          path: 'add-lesson',
-          component: () => import('../views/management-content/lesson/AddDetailLesson.vue'),
-        },
-        {
-          path: 'detail',
-          component: () => import('../views/management-content/lesson/DetailLesson.vue'),
-        },
-        {
           path: 'management-users',
           component: () => import('../pages/management-user.vue'),
         },
@@ -57,6 +45,37 @@ const router = createRouter({
           component: () => import('../pages/template/form-layouts.vue'),
         },
       ],
+    },
+    {
+      path: '/',
+      component: () => import('../layouts/default.vue'),
+      children: [
+        {
+          path: 'management-lesson/',
+          component: () => import('../pages/management-lesson.vue'),
+          children: [
+            {
+              path: 'detail',
+              component: () => import('../views/management-content/lesson/DetailLesson.vue'),
+            },
+            {
+              path: 'add',
+              component: () => import('../views/management-content/lesson/AddDetailLesson.vue'),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: '/',
+      component: () => import('../layouts/blank.vue'),
+      children: [
+        {
+          path: 'management-lesson',
+          component: () => import('../pages/management-lesson.vue'),
+
+        },
+      ]
     },
     {
       path: '/',

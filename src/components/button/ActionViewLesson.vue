@@ -2,9 +2,9 @@
   <ActionClassLink
     class="action-buttons-container"
     :item="{
-      icon: 'mdi-eye',
+      icon: 'mdi-eye-outline',
       to: '/detail',
-      style:'color: #AE98D6;'
+      style:'color: #16B1FF;'
     }"
   />
 </template>

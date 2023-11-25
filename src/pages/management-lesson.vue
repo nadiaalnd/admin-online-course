@@ -1,7 +1,7 @@
 <template>
   <VRow>
     <VCol cols="12">
-      <VCard title="Kelas">
+      <VCard title="Materi">
         <VCardText>
           <ActionAddLesson/>
         </VCardText>
