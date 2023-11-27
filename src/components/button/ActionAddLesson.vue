@@ -10,7 +10,7 @@
       dense
     ></v-select>
     <v-spacer></v-spacer>
-    <router-link to="/add">
+    <router-link to="/create">
       <v-btn variant='outlined' color="primary">Tambah</v-btn>
     </router-link>
   </v-card-actions>
