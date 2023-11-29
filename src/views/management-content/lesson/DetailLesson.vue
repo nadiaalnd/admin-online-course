@@ -8,7 +8,7 @@
             rounded="lg"
             size="100"
             class="me-6"
-            :image="detailLesson.avatarImg"
+            :image="detailLesson.thumbnail"
           />
 
           <!-- 👉 Upload Photo -->
@@ -58,7 +58,7 @@
 
         <VCardText>
           <!-- 👉 Form -->
-          <VForm class="mt-6">
+          <VForm class="mt-6" @submit.prevent="updateLesson">
             <VRow>
               <!-- 👉 Title -->
               <VCol
@@ -93,15 +93,15 @@
                 />
               </VCol>
 
-              <!-- 👉 Language -->
+              <!-- 👉 Class -->
               <VCol
                 cols="12"
                 md="6"
               >
                 <VSelect
-                  v-model="detailLesson.lesson"
+                  v-model="detailLesson.className"
                   label="Language"
-                  :items="['HTML', 'PHP', 'Laravel', 'MySQL', 'Pyhton']"
+                  :items="['HTML', 'PHP', 'Laravel', 'MySQL', 'Python']"
                 />
               </VCol>
 
@@ -110,7 +110,7 @@
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn>Save changes</VBtn>
+                <VBtn type="submit">Save changes</VBtn>
 
                 <VBtn
                   color="secondary"
@@ -130,36 +130,73 @@
 </template>
 
 <script setup>
-import avatar1 from '@images/avatars/avatar-1.png'
+import axios from 'axios';
 
 const lessonData = {
-  avatarImg: avatar1,
-  title: 'HTML - Basic',
-  description: 'Materi HTML dasar',
-  link: 'https://www.youtube.com/watch?v=UB1O30fR-EE',
-  lesson: 'HTML',
-}
+  id: "",
+  title: "",
+  description: "",
+  link: "",
+  lesson: "",
+  thumbnail: "",
+  className: "",
+};
 
-const refInputEl = ref()
-const detailLesson = ref(structuredClone(lessonData))
+const refInputEl = ref();
+const detailLesson = ref(structuredClone(lessonData));
 
 const resetForm = () => {
-  detailLesson.value = structuredClone(lessonData)
-}
+  detailLesson.value = structuredClone(lessonData);
+};
 
-const changeAvatar = file => {
-  const fileReader = new FileReader()
-  const { files } = file.target
+const changeAvatar = (file) => {
+  const fileReader = new FileReader();
+  const { files } = file.target;
   if (files && files.length) {
-    fileReader.readAsDataURL(files[0])
+    fileReader.readAsDataURL(files[0]);
     fileReader.onload = () => {
-      if (typeof fileReader.result === 'string')
-        detailLesson.value.avatarImg = fileReader.result
-    }
+      if (typeof fileReader.result === 'string') detailLesson.value.thumbnail = fileReader.result;
+    };
   }
-}
+};
 
 const resetAvatar = () => {
-  detailLesson.value.avatarImg = lessonData.avatarImg
-}
+  detailLesson.value.thumbnail = lessonData.thumbnail;
+};
+
+const updateLesson = () => {
+  const { title, description, link, className, thumbnail } = detailLesson.value;
+  const updatedLesson = {
+    title,
+    description,
+    link,
+    className,
+    thumbnail
+  };
+
+  axios.put(`http://localhost:3001/api/v1/lesson/${id}`, updatedLesson)
+    .then((response) => {
+      console.log('Lesson updated successfully:', response.data);
+    })
+    .catch((error) => {
+      console.error('Error updating lesson:', error);
+    });
+};
+
+onMounted(() => {
+  axios.get('http://localhost:3001/api/v1/lesson').then((response) => {
+    const { data } = response;
+    if (data && data.data && data.data.length > 0) {
+      const apiLesson = data.data[0];
+      detailLesson.value.id = apiLesson.id;
+      detailLesson.value.title = apiLesson.title;
+      detailLesson.value.description = apiLesson.description;
+      detailLesson.value.link = apiLesson.link;
+      detailLesson.value.className = apiLesson.className;
+      detailLesson.value.thumbnail = apiLesson.thumbnail;
+
+      console.log('Fetched lesson data:', detailLesson.value);
+    }
+  });
+});
 </script>

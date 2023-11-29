@@ -1,13 +1,12 @@
 <template>
   <v-form>
-    <v-row>
+    <v-row @submit="submitForm">
       <v-col cols="12">
         <v-text-field
-          v-model="name"
+          v-model="title"
           prepend-inner-icon="mdi-form-select"
           label="Nama Kelas"
           type="text"
-          placeholder="Nama Kelas"
         />
       </v-col>
       <v-col cols="12">
@@ -16,14 +15,12 @@
           prepend-inner-icon="mdi-form-select"
           label="Deskripsi"
           type="text"
-          placeholder="Deskripsi"
         />
       </v-col>
       <v-col cols="12">
         <v-btn
           type="submit"
           class="me-2"
-          @click.prevent="$emit('submit', { name, description })"
         >
           Submit
         </v-btn>
@@ -42,12 +39,25 @@
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 
-const name = ref('')
+const title = ref('')
 const description = ref('')
+const id = ref('')
 
 const resetForm = () => {
-  name.value = ''
+  title.value = ''
   description.value = ''
+  id.value = ''
+}
+const submitForm = async() => {
+  try {
+    const response = await axios.patch('http://localhost:3001/api/v1/class/${id.value}', {
+      title: title.value,
+      description: description.value,
+    })
+  } catch (error) {
+    console.log('Error updating class', error)
+  }
 }
 </script>

@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12">
         <v-text-field
-          v-model="name"
+          v-model="title"
           prepend-inner-icon="mdi-form-select"
           label="Nama Kelas"
           type="text"
@@ -23,6 +23,7 @@
         <v-btn
           type="submit"
           class="me-2"
+          @click="submitForm"
         >
           Submit
         </v-btn>
@@ -41,12 +42,27 @@
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 
-const name = ref('')
+const title = ref('')
 const description = ref('')
 
 const resetForm = () => {
-  name.value = ''
+  title.value = ''
   description.value = ''
+}
+
+const submitForm = async () => {
+  try {
+    const payload = {
+      title: title.value,
+      description: description.value,
+    }
+    const response = await axios.post('http://localhost:3001/api/v1/class', payload)
+    console.log('Response:', response.data)
+    resetForm()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+  }
 }
 </script>

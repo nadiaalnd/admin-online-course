@@ -26,7 +26,7 @@ const router = createRouter({
         },
         {
           path: 'create',
-          component: () => import('../views/management-content/lesson/AddDetailLesson.vue'),
+          component: () => import('../views/management-content/lesson/AddLesson.vue'),
         },
         {
           path: 'management-users',

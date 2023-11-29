@@ -12,10 +12,10 @@
           title
         </th>
         <th class="text-uppercase text-center">
-          thumbnail
+          class
         </th>
         <th class="text-uppercase text-center">
-          class
+          description
         </th>
         <th class="text-uppercase text-center">
           action
@@ -25,20 +25,20 @@
 
     <tbody>
       <tr
-        v-for="item in classes"
-        :key="item.class"
+        v-for="(item, index) in lessons"
+        :key="item.lesson"
       >
         <td>
-          {{ item.no }}
+          {{ index + 1 }}
         </td>
         <td class="text-center">
           {{ item.title }}
         </td>
         <td class="text-center">
-          {{ item.thumbnail }}
+          {{ item.className }}
         </td>
         <td class="text-center">
-          {{ item.class }}
+          {{ item.description }}
         </td>
         <td class="text-center">
           <ActionLesson />
@@ -50,43 +50,14 @@
 
 <script setup>
 import ActionLesson from '@/components/button/ActionViewLesson.vue'
+import axios from 'axios'
 
-const classes = [
-  {
-    no: 1,
-    title: "HTML - Introduction",
-    thumbnail: "img.png",
-    class: "HTML",
-  },
-  {
-    no: 2,
-    title: "HTML - Basic",
-    thumbnail: "img.png",
-    class: 'HTML',
-  },
-  {
-    no: 3,
-    title: "HTML - Advance",
-    thumbnail: "img.png",
-    class: "HTML",
-  },
-  {
-    no: 4,
-    title: "PHP - Introduction",
-    thumbnail: "img.png",
-    class: "PHP",
-  },
-  {
-    no: 5,
-    title: "PHP - Basic",
-    thumbnail: "img.png",
-    class: "PHP",
-  },
-  {
-    no: 6,
-    title: "PHP - OOP",
-    thumbnail: "img.png",
-    class: "PHP",
-  }
-]
+const lessons = ref([]);
+onMounted(() => {
+  axios.get('http://localhost:3001/api/v1/lesson').then((response) => {
+    const { data } = response
+    lessons.value = data.data
+    console.log('data', data.data)
+  })
+})
 </script>

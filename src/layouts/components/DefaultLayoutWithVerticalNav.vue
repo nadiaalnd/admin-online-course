@@ -65,18 +65,18 @@
       />
 
       <!-- 👉 User Interface -->
-      <VerticalNavSectionTitle
-        :item="{
-          heading: 'Management Users',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Users',
-          icon: 'mdi-account-box-outline',
-          to: '/management-users',
-        }"
-      />
+<!--      <VerticalNavSectionTitle-->
+<!--        :item="{-->
+<!--          heading: 'Management Users',-->
+<!--        }"-->
+<!--      />-->
+<!--      <VerticalNavLink-->
+<!--        :item="{-->
+<!--          title: 'Users',-->
+<!--          icon: 'mdi-account-box-outline',-->
+<!--          to: '/management-users',-->
+<!--        }"-->
+<!--      />-->
     </template>
     <slot />
 

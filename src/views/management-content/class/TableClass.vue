@@ -22,11 +22,11 @@
 
     <tbody>
     <tr
-      v-for="item in categories"
-      :key="item.category"
+      v-for="(item, index) in classes"
+      :key="item.class"
     >
       <td>
-        {{ item.no }}
+        {{ index + 1 }}
       </td>
       <td class="text-center">
         {{ item.title }}
@@ -40,7 +40,7 @@
           @open-delete-modal="openDeleteModal"
         />
         <EditClassForm
-          v-if="isEditModalOpen"
+          v-if="isEditModalOpen && item.class === editingClassId"
           @submit="handleEditSubmit"
         />
       </td>
@@ -50,51 +50,31 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import ActionClass from '@/components/button/ActionClass.vue'
 import EditClassForm from '@/components/modal/class/EditClassForm.vue'
+import axios from 'axios'
 
-const categories = [
-  {
-    no: 1,
-    title: "Web Development",
-    description: "lorem ipsum dolor sit amet",
-  },
-  {
-    no: 2,
-    title: "Android Development",
-    description: "lorem ipsum dolor sit amet",
-  },
-  {
-    no: 3,
-    title: "IOS Development",
-    description: "lorem ipsum dolor sit amet",
-  },
-  {
-    no: 4,
-    title: "Desktop Development",
-    description: "lorem ipsum dolor sit amet",
-  },
-  {
-    no: 5,
-    title: "Machine Learning",
-    description: "lorem ipsum dolor sit amet",
-  },
-  {
-    no: 6,
-    title: "UI/UX Design",
-    description: "lorem ipsum dolor sit amet",
-  },
-  {
-    no: 7,
-    title: "Graphic Design",
-    description: "lorem ipsum dolor sit amet",
-  },
-  {
-    no: 8,
-    title: "Data Analyst",
-    description: "lorem ipsum dolor sit amet",
-  }
-]
+const isEditModalOpen = ref(false)
+const editingClassId = ref(null)
+const openEditModal = (item) => {
+  editingClassId.value = item.class
+  isEditModalOpen.value = true
+}
 
-
+const classes = ref([]);
+onMounted(() => {
+  axios.get('http://localhost:3001/api/v1/class').then((response) => {
+    const { data } = response
+    classes.value = data.data
+    console.log('data', data.data)
+  })
+})
+const handleEditSubmit = () => {
+  axios.get('http://localhost:3001/api/v1/class').then((response) => {
+    const { data } = response
+    classes.value = data.data
+  })
+  isEditModalOpen.value = false
+}
 </script>
